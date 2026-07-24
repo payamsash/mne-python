@@ -263,6 +263,22 @@ class LayeredMesh:
         self._polydata = None
         self._renderer = None
 
+    def update_geometry(self, vertices, normals):
+        """Update the mesh's vertex positions and normals in place.
+
+        Parameters
+        ----------
+        vertices : array, shape (n_vertices, 3)
+            New vertex coordinates. Must match the existing vertex count.
+        normals : array, shape (n_vertices, 3)
+            New vertex normals.
+        """
+        self._vertices = vertices
+        self._normals = normals
+        self._polydata.points = vertices
+        self._polydata.point_data["Normals"] = normals
+        self._polydata.GetPointData().SetActiveNormals("Normals")
+
     def update_overlay(
         self, name, scalars=None, colormap=None, opacity=None, rng=None, update=True
     ):
